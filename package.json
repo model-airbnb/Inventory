@@ -1,0 +1,45 @@
+{
+  "name": "Inventory",
+  "version": "1.0.0",
+  "description": "Inventory Service for model-airbnb",
+  "author": "Ryan Akiyama",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/model-airbnb/Inventory.git"
+  },
+  "keywords": [
+    "inventory"
+  ],
+  "scripts": {
+    "start": "node ./server/index.js",
+    "start:es6": "babel-node ./server/index.js",
+    "test": "mocha server/spec/server-spec.js; RES=$?; kill %1; exit $RES",
+    "test:es6": "mocha --compilers js:babel-register server/spec/server-spec.js; RES=$?; kill %1; exit $RES"
+  },
+  "dependencies": {
+    "body-parser": "^1.9.2",
+    "express": "^4.16.2",
+    "morgan": "^1.4.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "webpack": "^2.2.1"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
+}
