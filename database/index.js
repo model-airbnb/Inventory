@@ -5,3 +5,4 @@ var connection = mysql.createConnection({
   password : '',
   database : 'inventory_database'
 });
+

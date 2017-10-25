@@ -43,7 +43,7 @@ CREATE TABLE listings (
 CREATE TABLE amenities (
   id INT NOT NULL AUTO_INCREMENT,
   amenities_name VARCHAR(25) NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY(id)
 );
 
 CREATE TABLE listings_amenities (

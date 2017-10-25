@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
+const dataGenerator = require('./data-generator');
+const db = require('../database/index.js');
 
-app.get('/', function (req, res) {
-  res.send('GET request received');
+app.get('/reservations', function (req, res) {
+  res.send();
 });
 
 app.listen(8080, function () {
