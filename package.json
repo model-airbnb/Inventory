@@ -24,9 +24,7 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "json-schema-faker": "^0.4.6",
-    "morgan": "^1.4.1",
     "mysql": "^2.15.0",
-    "pg-promise": "^7.0.3",
     "requirejs": "^2.3.5"
   },
   "devDependencies": {
@@ -39,7 +37,6 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
-    "webpack": "^2.2.1"
   },
   "babel": {
     "presets": [
