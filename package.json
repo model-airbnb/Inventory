@@ -21,9 +21,13 @@
     "test:es6": "mocha --compilers js:babel-register server/spec/server-spec.js; RES=$?; kill %1; exit $RES"
   },
   "dependencies": {
-    "body-parser": "^1.9.2",
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "morgan": "^1.4.1"
+    "json-schema-faker": "^0.4.6",
+    "morgan": "^1.4.1",
+    "mysql": "^2.15.0",
+    "pg-promise": "^7.0.3",
+    "requirejs": "^2.3.5"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
