@@ -27,7 +27,7 @@ CREATE TABLE hosts (
 
 CREATE TABLE listings (
   id INT NOT NULL AUTO_INCREMENT,
-  listing_name VARCHAR(25) NOT NULL,
+  listing_name VARCHAR(50) NOT NULL,
   rating INT,
   rating_count INT,
   room_type VARCHAR(15) NOT NULL,
@@ -65,5 +65,17 @@ CREATE TABLE availability (
   FOREIGN KEY(listings_id) REFERENCES listings(id)
 );
 
-
-
+INSERT INTO destinations (destination_name) VALUES ("San Francisco");
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Glen Park", 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Golden Gate Park", 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Haight Ashbury", 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Inner Richmond", 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Inner Sunset", 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Outer Richmond", 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Outer Sunset", 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Presidio", 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Financial District", 1);
+INSERT INTO hosts (host_name, is_super_host) VALUES ("Ryan Akiyama", 1);
+INSERT INTO hosts (host_name, is_super_host) VALUES ("Tiffany Pham", 1);
+INSERT INTO hosts (host_name, is_super_host) VALUES ("Tyler Truong", 1);
+INSERT INTO hosts (host_name, is_super_host) VALUES ("Christine Wong", 1);
