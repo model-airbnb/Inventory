@@ -35,7 +35,6 @@ app.post('/availability', (req, res) => {
 
 app.post('/update', (req, res) => {
   const updatedListings = dataGenerator.availabilityUpdateGenerator();
-  const recomendationsPublished = [];
   for (let i = 0; i < updatedListings.length; i++) {
     db.updateAvailability(updatedListings[i], i, (err, data) => {
       if (err) {
@@ -45,7 +44,7 @@ app.post('/update', (req, res) => {
     });
   }
   console.log('Finished');  
-  res.send(recomendationsPublished);
+  res.send();
 });
 
 app.get('/listings', (req, res) => {
