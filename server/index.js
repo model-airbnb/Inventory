@@ -35,6 +35,7 @@ app.post('/availability', (req, res) => {
 
 app.post('/update', (req, res) => {
   const updatedListings = dataGenerator.availabilityUpdateGenerator();
+  const recomendationsPublished = [];
   for (let i = 0; i < updatedListings.length; i++) {
     db.updateAvailability(updatedListings[i], i, (err, data) => {
       if (err) {
@@ -44,8 +45,23 @@ app.post('/update', (req, res) => {
     });
   }
   console.log('Finished');  
+  res.send(recomendationsPublished);
+});
+
+app.get('/listings', (req, res) => {
+  const listings = dataGenerator.listingsGenerator();
+  for (let i = 0; i < listings.length; i++) {
+    db.insertListings(listings[i], i, (err, data) => {
+      if (err) {
+        console.log('Error', err);
+        res.sendStatus(500);
+      }
+    });
+  }
+  console.log('Finished');    
   res.send();
 });
+
 
 app.listen(8080, () => {
   console.log('Server is listening on port 8080!');
