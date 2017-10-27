@@ -49,14 +49,14 @@ const availabilityGenerator = () => {
   return availability;
 };
 
-//availble dates for existings listings are updated
+//availble dates for existings listings are updated, data simulated from user-behavior service
+//listing with correct date must already be in the database to not throw an error
 const availabilityUpdateGenerator = () => {
   const availability = [];
-  for (let i = 0; i < 50000; i++) {
+  for (let i = 0; i < 1; i++) {
     availability[i] = {
       listings_id: Math.floor(Math.random() * 500000),
       date: `2017-${Math.floor(Math.random() * 3) + 10}-${Math.floor(Math.random() * 30) + 1}`,
-      price: Math.floor(Math.random() * 251) + 250,
       is_available: 0,
     };
   }
