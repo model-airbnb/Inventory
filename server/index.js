@@ -45,6 +45,21 @@ app.post('/update', (req, res) => {
   res.send();
 });
 
+app.get('/listings', (req, res) => {
+  const listings = dataGenerator.listingsGenerator();
+  for (let i = 0; i < listings.length; i++) {
+    db.insertListings(listings[i], i, (err, data) => {
+      if (err) {
+        console.log('Error', err);
+        res.sendStatus(500);
+      }
+    });
+  }
+  console.log('Finished');    
+  res.send();
+});
+
+
 app.listen(8080, () => {
   console.log('Server is listening on port 8080!');
 });
