@@ -8,15 +8,18 @@ const connection = mysql.createConnection({
 
 const insertListings = (listings, count, callback) => {
   console.log(count, listings.neighborhoods_name);
-  connection.query(`SELECT id from destinations WHERE destinations.destination_name = '${listings.destinations_name}'`, (err, destinationsId, fields) => {
+  connection.query(`SELECT id from destinations 
+  WHERE destinations.destination_name = '${listings.destinations_name}'`, (err, destinationsId, fields) => {
     if (err) {
       callback(err, null);
     } else {
-      connection.query(`SELECT id from neighborhoods WHERE neighborhoods.neighborhood_name = '${listings.neighborhoods_name}'`, (err, neighborhoodsId, fields) => {
+      connection.query(`SELECT id from neighborhoods 
+      WHERE neighborhoods.neighborhood_name = '${listings.neighborhoods_name}'`, (err, neighborhoodsId, fields) => {
         if (err) {
           callback(err, null);
         } else {
-          connection.query(`SELECT id from hosts WHERE hosts.host_name = '${listings.host_name}'`, (err, hostsId, fields) => {
+          connection.query(`SELECT id from hosts 
+          WHERE hosts.host_name = '${listings.host_name}'`, (err, hostsId, fields) => {
             if (err) {
               callback(err, null);
             } else {
@@ -51,7 +54,10 @@ const insertAvailability = (availability, count, callback) => {
 
 const updateAvailability = (availability, count, callback) => {
   console.log(availability);
-  connection.query(`SELECT * from availability INNER JOIN listings ON listings.id = ${availability.listings_id} where availability.availability_date = '${availability.date}' ORDER BY availability.id DESC LIMIT 1`, (err, listingsResults, fields) => {
+  connection.query(`SELECT * from availability 
+  INNER JOIN listings ON listings.id = ${availability.listings_id} 
+  WHERE availability.availability_date = '${availability.date}' 
+  ORDER BY availability.id DESC LIMIT 1`, (err, listingsResults, fields) => {
     if (err) {
       callback(err, null);
     } else {
@@ -59,10 +65,13 @@ const updateAvailability = (availability, count, callback) => {
         if (err) {
           callback(err, null);
         } else {
-          connection.query(`SELECT neighborhoods.neighborhood_name, destinations.destination_name from neighborhoods INNER JOIN destinations ON destinations.id = neighborhoods.destinations_id where neighborhoods.id = ${listingsResults[0].neighborhoods_id}`, (err, destinationResults, fields) => {
+          connection.query(`SELECT neighborhoods.neighborhood_name, destinations.destination_name from neighborhoods 
+            INNER JOIN destinations ON destinations.id = neighborhoods.destinations_id 
+            WHERE neighborhoods.id = ${listingsResults[0].neighborhoods_id}`, (err, destinationResults, fields) => {
             if (err) {
               callback(err, null);
             } else {
+              console.log(count);
               callback(null, listingsResults);
             }
           });
