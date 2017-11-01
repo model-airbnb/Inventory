@@ -7,31 +7,15 @@ AWS.config.update({
 
 const sqs = new AWS.SQS({ region: 'us-west-1' });
 
-const inventoryMessage = { topic: 'Inventory', payload: 'Test from Inventory' };
-const searchMessage = { topic: 'Inventory', payload: 'Test from Inventory' };
-const recommendationsMessage = { topic: 'Inventory', payload: 'Test from Inventory' };
-
-const sqsParamsInventory = {
-  MessageBody: JSON.stringify(inventoryMessage),
-  QueueUrl: process.env.INVENTORY_QUEUE_URL,
-};
-
 const sqsParamsSearch = {
-  MessageBody: JSON.stringify(searchMessage),
+  MessageBody: JSON.stringify({ topic: 'Inventory', payload: 'Message for Search' }),
   QueueUrl: process.env.SEARCH_QUEUE_URL,
 };
 
 const sqsParamsRecommendations = {
-  MessageBody: JSON.stringify(recommendationsMessage),
+  MessageBody: JSON.stringify({ topic: 'Inventory', payload: 'Message for Inventory' }),
   QueueUrl: process.env.RECOMMENDATIONS_QUEUE_URL,
 };
-
-sqs.sendMessage(sqsParamsInventory, (err, data) => {
-  if (err) {
-    console.log('ERR', err);
-  }
-  console.log(data);
-});
 
 sqs.sendMessage(sqsParamsSearch, (err, data) => {
   if (err) {

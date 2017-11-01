@@ -16,9 +16,7 @@
   ],
   "scripts": {
     "start": "node ./server/index.js",
-    "start:es6": "babel-node ./server/index.js",
-    "test": "mocha server/spec/server-spec.js; RES=$?; kill %1; exit $RES",
-    "test:es6": "mocha --compilers js:babel-register server/spec/server-spec.js; RES=$?; kill %1; exit $RES"
+    "start:es6": "babel-node ./server/index.js"
   },
   "dependencies": {
     "aws-sdk": "^2.141.0",
@@ -39,8 +37,7 @@
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0",
-    "webpack": "^2.2.1"
+    "eslint-plugin-react": "^7.4.0"
   },
   "babel": {
     "presets": [
