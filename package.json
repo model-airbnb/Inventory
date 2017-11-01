@@ -21,11 +21,14 @@
     "test:es6": "mocha --compilers js:babel-register server/spec/server-spec.js; RES=$?; kill %1; exit $RES"
   },
   "dependencies": {
+    "aws-sdk": "^2.141.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "json-schema-faker": "^0.4.6",
     "mysql": "^2.15.0",
-    "requirejs": "^2.3.5"
+    "promise-mysql": "^3.1.1",
+    "requirejs": "^2.3.5",
+    "sequelize": "^4.20.1"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
@@ -37,6 +40,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
+    "webpack": "^2.2.1"
   },
   "babel": {
     "presets": [
