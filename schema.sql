@@ -65,16 +65,21 @@ CREATE TABLE availability (
   FOREIGN KEY(listings_id) REFERENCES listings(id)
 );
 
-INSERT INTO destinations (destination_name) VALUES ("San Francisco");
-INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Glen Park", 1);
-INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Golden Gate Park", 1);
-INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Haight Ashbury", 1);
-INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Inner Richmond", 1);
-INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Inner Sunset", 1);
-INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Outer Richmond", 1);
-INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Outer Sunset", 1);
-INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Presidio", 1);
-INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ("Financial District", 1);
+INSERT INTO destinations (destination_name) VALUES ('San Francisco');
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Glen Park', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Golden Gate Park', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Haight Ashbury', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Inner Richmond', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Inner Sunset', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Outer Richmond', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Outer Sunset', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Presidio', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Financial District', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Presidio Heights', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Russian Hill', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Seacliff', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('South of Market', 1);
+INSERT INTO neighborhoods (neighborhood_name, destinations_id) VALUES ('Twin Peaks', 1);
 INSERT INTO hosts (host_name, is_super_host) VALUES ("Ryan Akiyama", 1);
 INSERT INTO hosts (host_name, is_super_host) VALUES ("Tiffany Pham", 1);
 INSERT INTO hosts (host_name, is_super_host) VALUES ("Tyler Truong", 1);
