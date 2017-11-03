@@ -4,12 +4,20 @@ const app = express();
 const dataGenerator = require('./data-generator');
 const db = require('../database/index.js');
 const fs = require('fs');
+const AWS = require('aws-sdk');
+const sqs = new AWS.SQS({ region: 'us-west-1' });
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+
 
 const generate = () => {
   setInterval(() => {
     const listings = dataGenerator.listingsGeneratorImport();
     for (let i = 0; i < listings.length; i += 1) {
-      let content = listings[i];
+      const content = listings[i];
       fs.appendFile('./listings.csv', content + '\n', 'utf8', (err) => {
         if (err) {
           throw err;
@@ -30,6 +38,19 @@ app.post('/listings', (req, res) => {
         res.sendStatus(500);
       }
       console.log(data);
+
+      //simulates a host listing
+      const sqsParamsSearch = {
+        MessageBody: JSON.stringify({ topic: 'Inventory', payload: data }),
+        QueueUrl: process.env.SEARCH_QUEUE_URL,
+      };
+
+      sqs.sendMessage(sqsParamsSearch, (err, data) => {
+        if (err) {
+          console.log('ERR', err);
+        }
+        console.log(data);
+      });
     });
   }
   console.log('Finished');
@@ -45,6 +66,18 @@ app.post('/availability', (req, res) => {
         res.sendStatus(500);
       }
       console.log(data);
+      //simulates a host listing
+      const sqsParamsSearch = {
+        MessageBody: JSON.stringify({ topic: 'Availability', payload: data }),
+        QueueUrl: process.env.SEARCH_QUEUE_URL,
+      };
+
+      sqs.sendMessage(sqsParamsSearch, (err, data) => {
+        if (err) {
+          console.log('ERR', err);
+        }
+        console.log(data);
+      });
     });
   }
   console.log('Finished');
