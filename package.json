@@ -15,7 +15,7 @@
     "inventory"
   ],
   "scripts": {
-    "start": "node ./server/index.js",
+    "start": "node ./server/index.js | node ./server/aws.js",
     "start:es6": "babel-node ./server/index.js"
   },
   "dependencies": {
@@ -23,7 +23,6 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "mysql": "^2.15.0",
-    "promise-mysql": "^3.1.1",
     "sqs-consumer": "^3.8.0"
   },
   "devDependencies": {
