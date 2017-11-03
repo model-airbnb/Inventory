@@ -19,9 +19,10 @@ const neighborhoods = [
   'Twin Peaks',
 ];
 
+//available listings are added
 const listingsGenerator = () => {
   const listings = [];
-  for (let i = 0; i < 5000; i += 1) {
+  for (let i = 0; i < 10000; i += 1) {
     const hostName = hosts[Math.floor(Math.random() * hosts.length)];
     const destination = destinations[Math.floor(Math.random() * destinations.length)];
     const neighborhood = neighborhoods[Math.floor(Math.random() * neighborhoods.length)];
@@ -42,9 +43,10 @@ const listingsGenerator = () => {
   return listings;
 };
 
+//available listings are written to a file to import
 const listingsGeneratorImport = () => {
   const listings = [];
-  for (let i = 0; i < 8000; i += 1) {
+  for (let i = 0; i < 5000; i += 1) {
     const neighborhood = neighborhoods[Math.floor(Math.random() * neighborhoods.length)];
     const roomType = roomTypes[Math.floor(Math.random() * roomTypes.length)];
     const listingName = `${listingInfo[Math.floor(Math.random() * listingInfo.length)]} ${roomType} in ${neighborhood}`;
@@ -66,7 +68,7 @@ const listingsGeneratorImport = () => {
     // };
 
     //uncomment below ot write listings to a .csv file
-    listings[i] = `"${listingName}",${listingRating},${numberOfRatings},${roomType},${hostsId},${destinationsId},${neighborhoodsId}`;
+    listings[i] = `'${listingName}',${listingRating},${numberOfRatings},${roomType},${hostsId},${destinationsId},${neighborhoodsId}`;
   }
   return listings;
 };
@@ -74,7 +76,7 @@ const listingsGeneratorImport = () => {
 //availble dates for existings listings are added
 const availabilityGenerator = () => {
   const availability = [];
-  for (let i = 0; i < 50; i += 1) {
+  for (let i = 0; i < 10000; i += 1) {
     availability[i] = {
       listings_id: Math.floor(Math.random() * 10000000),
       date: [
@@ -96,7 +98,7 @@ const availabilityGenerator = () => {
 //availble dates for existings listings are updated
 const availabilityUpdateGenerator = () => {
   const availability = [];
-  for (let i = 0; i < 5; i += 1) {
+  for (let i = 0; i < 10000; i += 1) {
     availability[i] = {
       listings_id: Math.floor(Math.random() * 10000000),
       user_id: Math.floor(Math.random() * 10000000),
