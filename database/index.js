@@ -8,8 +8,7 @@ const connection = mysql.createConnection({
 });
 
 const insertListings = (listings, callback) => {
-  console.log(listings.neighborhoods_name);
-  let searchAddMessage;
+  let searchInventoryMessage;
   let hostsId;
   let destinationsId;
   let neighborhoodsId;
@@ -31,13 +30,11 @@ const insertListings = (listings, callback) => {
               callback(err, null);
             } else {
               hostsId = results;
-              console.log(destinationsId, neighborhoodsId, hostsId);
               connection.query('INSERT into listings (listing_name, rating, rating_count, room_type, hosts_id, destinations_id, neighborhoods_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [listings.listing_name, listings.rating, listings.number_of_ratings, listings.room_type, `${hostsId[0].id}`, `${destinationsId[0].id}`, `${neighborhoodsId[0].id}`], (err, results, fields) => {
                 if (err) {
                   callback(err, null);
                 } else {
-                  console.log(results);
-                  searchAddMessage = {
+                  searchInventoryMessage = {
                     listings_id: results.insertId,
                     listingName: listings.listing_name,
                     hostName: listings.host_name,
@@ -47,7 +44,7 @@ const insertListings = (listings, callback) => {
                     averageRating: listings.rating,
                     numberOfRatings: listings.number_of_ratings,
                   };
-                  callback(null, searchAddMessage);
+                  callback(null, searchInventoryMessage);
                 }
               });
             }
@@ -59,10 +56,9 @@ const insertListings = (listings, callback) => {
 };
 
 const insertAvailability = (availability, callback) => {
-  console.log(availability.price);
-  let searchUpdateMessage;
+  let searchAddMessage;
   let availabilityInsert;
-  let count = availability.date.length;
+  const count = availability.date.length;
   for (let i = 0; i < count; i += 1) {
     if (i === count - 1) {
       availabilityInsert += `('${availability.date[i]}', ${availability.price[i]}, ${availability.is_available}, ${availability.listings_id}),`;
@@ -76,14 +72,13 @@ const insertAvailability = (availability, callback) => {
     if (err) {
       callback(err, null);
     } else {
-      console.log(availability.listings_id);
-      searchUpdateMessage = {
+      searchAddMessage = {
         updateType: 'ADD',
         listingId: availability.listings_id,
         date: availability.date,
         price: availability.price,
       };
-      callback(null, searchUpdateMessage);
+      callback(null, searchAddMessage);
     }
   });
 };
@@ -94,11 +89,11 @@ const updateAvailability = (availability, callback) => {
   let listingsResults;
   let availabilityResults;
   let destinationResults;
-  let count = availability.date.length;
   let dateQuery = '(';
   let listingsInsert;
-  let nights = [];
-  let prices = [];
+  const nights = [];
+  const prices = [];
+  const count = availability.date.length;
   for (let i = 0; i < count; i += 1) {
     if (i === count - 1) {
       dateQuery += `'${availability.date[i]}',`;
@@ -126,6 +121,7 @@ const updateAvailability = (availability, callback) => {
         }
       }
       connection.query(`INSERT INTO availability (availability_date, price, is_available, listings_id) VALUES ${listingsInsert}`, (err, results, fields) => {
+        availabilityResults = results;
         if (err) {
           callback(err, null);
         } else {
