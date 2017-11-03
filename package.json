@@ -22,11 +22,8 @@
     "aws-sdk": "^2.141.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "json-schema-faker": "^0.4.6",
     "mysql": "^2.15.0",
     "promise-mysql": "^3.1.1",
-    "requirejs": "^2.3.5",
-    "sequelize": "^4.20.1",
     "sqs-consumer": "^3.8.0"
   },
   "devDependencies": {
