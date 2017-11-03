@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 const Consumer = require('sqs-consumer');
 const db = require('../database/index.js');
+
 const sqs = new AWS.SQS({ region: 'us-west-1' });
 
 AWS.config.update({
