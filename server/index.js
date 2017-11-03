@@ -5,6 +5,7 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 
 const sqs = new AWS.SQS({ region: 'us-west-1' });
+const port = process.env.INVENTORY_PORT;
 const app = express();
 
 
@@ -92,6 +93,6 @@ app.post('/update', (req, res) => {
 });
 
 
-app.listen(8080, () => {
+app.listen(port, () => {
   console.log('Server is listening on port 8080!');
 });
