@@ -26,7 +26,8 @@
     "mysql": "^2.15.0",
     "promise-mysql": "^3.1.1",
     "requirejs": "^2.3.5",
-    "sequelize": "^4.20.1"
+    "sequelize": "^4.20.1",
+    "sqs-consumer": "^3.8.0"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
