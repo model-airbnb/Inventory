@@ -1,13 +1,12 @@
 const AWS = require('aws-sdk');
 const Consumer = require('sqs-consumer');
 const db = require('../database/index.js');
+const sqs = new AWS.SQS({ region: 'us-west-1' });
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
-
-const sqs = new AWS.SQS({ region: 'us-west-1' });
 
 //simulates a user booking
 const sqsParamsInventory = {
@@ -22,9 +21,6 @@ sqs.sendMessage(sqsParamsInventory, (err, data) => {
   console.log(data);
 });
 
-let sqsParamsRecommendations;
-let sqsParamsSearch;
-
 //handles a user booking
 const app = Consumer.create({
   queueUrl: process.env.INVENTORY_QUEUE_URL,
@@ -36,7 +32,7 @@ const app = Consumer.create({
         throw err;
       }
 
-      sqsParamsRecommendations = {
+      const sqsParamsRecommendations = {
         MessageBody: JSON.stringify({ topic: 'Inventory', payload: data[0] }),
         QueueUrl: process.env.RECOMMENDATIONS_QUEUE_URL,
       };
@@ -49,7 +45,7 @@ const app = Consumer.create({
         console.log(data);
       });
 
-      sqsParamsSearch = {
+      const sqsParamsSearch = {
         MessageBody: JSON.stringify({ topic: 'Availability', payload: data[1] }),
         QueueUrl: process.env.SEARCH_QUEUE_URL,
       };
@@ -64,7 +60,7 @@ const app = Consumer.create({
     });
     done();
   },
-  sqs: new AWS.SQS(),
+  sqs: new AWS.SQS({ region: 'us-west-1' }),
 });
 
 app.on('error', (err) => {
