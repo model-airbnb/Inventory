@@ -1,9 +1,7 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 const dataGenerator = require('./data-generator');
 const db = require('../database/index.js');
-app.use(bodyParser.json());
 
 app.post('/listings', (req, res) => {
   const listings = dataGenerator.listingsGenerator();

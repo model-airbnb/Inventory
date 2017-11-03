@@ -93,7 +93,8 @@ const availabilityGenerator = () => {
   return availability;
 };
 
-//availble dates for existings listings are updated
+//availble dates for existings listings are updated, data simulated from user-behavior service
+//listing with correct date must already be in the database to not throw an error
 const availabilityUpdateGenerator = () => {
   const availability = [];
   for (let i = 0; i < 5; i += 1) {
