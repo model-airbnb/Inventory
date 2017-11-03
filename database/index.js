@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -6,30 +7,47 @@ const connection = mysql.createConnection({
   database: 'inventory_database',
 });
 
-const insertListings = (listings, count, callback) => {
-  console.log(count, listings.neighborhoods_name);
+const insertListings = (listings, callback) => {
+  console.log(listings.neighborhoods_name);
+  let searchAddMessage;
+  let hostsId;
+  let destinationsId;
+  let neighborhoodsId;
   connection.query(`SELECT id from destinations 
-  WHERE destinations.destination_name = '${listings.destinations_name}'`, (err, destinationsId, fields) => {
+  WHERE destinations.destination_name = '${listings.destinations_name}'`, (err, results, fields) => {
     if (err) {
       callback(err, null);
     } else {
+      destinationsId = results;
       connection.query(`SELECT id from neighborhoods 
-      WHERE neighborhoods.neighborhood_name = '${listings.neighborhoods_name}'`, (err, neighborhoodsId, fields) => {
+      WHERE neighborhoods.neighborhood_name = '${listings.neighborhoods_name}'`, (err, results, fields) => {
         if (err) {
           callback(err, null);
         } else {
+          neighborhoodsId = results;
           connection.query(`SELECT id from hosts 
-          WHERE hosts.host_name = '${listings.host_name}'`, (err, hostsId, fields) => {
+          WHERE hosts.host_name = '${listings.host_name}'`, (err, results, fields) => {
             if (err) {
               callback(err, null);
             } else {
+              hostsId = results;
               console.log(destinationsId, neighborhoodsId, hostsId);
               connection.query('INSERT into listings (listing_name, rating, rating_count, room_type, hosts_id, destinations_id, neighborhoods_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [listings.listing_name, listings.rating, listings.number_of_ratings, listings.room_type, `${hostsId[0].id}`, `${destinationsId[0].id}`, `${neighborhoodsId[0].id}`], (err, results, fields) => {
                 if (err) {
                   callback(err, null);
                 } else {
-                  console.log(listings.room_type);
-                  callback(null, results);
+                  console.log(results);
+                  searchAddMessage = {
+                    listings_id: results.insertId,
+                    listingName: listings.listing_name,
+                    hostName: listings.host_name,
+                    market: listings.destinations_name,
+                    neighbourhood: listings.neighborhoods_name,
+                    roomType: listings.room_type,
+                    averageRating: listings.rating,
+                    numberOfRatings: listings.number_of_ratings,
+                  };
+                  callback(null, searchAddMessage);
                 }
               });
             }
@@ -40,39 +58,107 @@ const insertListings = (listings, count, callback) => {
   });
 };
 
-const insertAvailability = (availability, count, callback) => {
+const insertAvailability = (availability, callback) => {
   console.log(availability.price);
-  connection.query('INSERT INTO availability (availability_date, price, is_available, listings_id) VALUES (?, ?, ?, ?)', [availability.date, availability.price, availability.is_available, availability.listings_id], function (err, results, fields) {
+  let searchUpdateMessage;
+  let availabilityInsert;
+  let count = availability.date.length;
+  for (let i = 0; i < count; i += 1) {
+    if (i === count - 1) {
+      availabilityInsert += `('${availability.date[i]}', ${availability.price[i]}, ${availability.is_available}, ${availability.listings_id}),`;
+      availabilityInsert = availabilityInsert.substring(0, availabilityInsert.length - 1);
+      availabilityInsert = availabilityInsert.substring(9, availabilityInsert.length);
+    } else {
+      availabilityInsert += `('${availability.date[i]}', ${availability.price[i]}, ${availability.is_available}, ${availability.listings_id}),`;
+    }
+  }
+  connection.query(`INSERT INTO availability (availability_date, price, is_available, listings_id) VALUES ${availabilityInsert}`, (err, results, fields) => {
     if (err) {
       callback(err, null);
     } else {
       console.log(availability.listings_id);
-      callback(null, results);
+      searchUpdateMessage = {
+        updateType: 'ADD',
+        listingId: availability.listings_id,
+        date: availability.date,
+        price: availability.price,
+      };
+      callback(null, searchUpdateMessage);
     }
   });
 };
 
-const updateAvailability = (availability, count, callback) => {
-  console.log(availability);
+const updateAvailability = (availability, callback) => {
+  let recommendationsMessage;
+  let searchUpdateMessage;
+  let listingsResults;
+  let availabilityResults;
+  let destinationResults;
+  let count = availability.date.length;
+  let dateQuery = '(';
+  let listingsInsert;
+  let nights = [];
+  let prices = [];
+  for (let i = 0; i < count; i += 1) {
+    if (i === count - 1) {
+      dateQuery += `'${availability.date[i]}',`;
+      dateQuery = dateQuery.substring(0, dateQuery.length - 1);
+      dateQuery += ')';
+    } else {
+      dateQuery += `'${availability.date[i]}',`;
+    }
+  }
   connection.query(`SELECT * from availability 
   INNER JOIN listings ON listings.id = ${availability.listings_id} 
-  WHERE availability.availability_date = '${availability.date}' 
-  ORDER BY availability.id DESC LIMIT 1`, (err, listingsResults, fields) => {
+  WHERE availability.availability_date IN ${dateQuery} 
+  ORDER BY availability.id DESC LIMIT ${count}`, (err, results, fields) => {
     if (err) {
       callback(err, null);
     } else {
-      connection.query('INSERT INTO availability (availability_date, price, is_available, listings_id) VALUES (?, ?, ?, ?)', [availability.date, `${listingsResults[0].price}`, availability.is_available, availability.listings_id], (err, availabilityResults, fields) => {
+      listingsResults = results.reverse();
+      for (let j = 0; j < count; j += 1) {
+        if (j === count - 1) {
+          listingsInsert += `('${availability.date[j]}', ${listingsResults[j].price}, ${availability.is_available}, ${availability.listings_id}),`;
+          listingsInsert = listingsInsert.substring(0, listingsInsert.length - 1);
+          listingsInsert = listingsInsert.substring(9, listingsInsert.length);
+        } else {
+          listingsInsert += `('${availability.date[j]}', ${listingsResults[j].price}, ${availability.is_available}, ${availability.listings_id}),`;
+        }
+      }
+      connection.query(`INSERT INTO availability (availability_date, price, is_available, listings_id) VALUES ${listingsInsert}`, (err, results, fields) => {
         if (err) {
           callback(err, null);
         } else {
+          availabilityResults = results;
           connection.query(`SELECT neighborhoods.neighborhood_name, destinations.destination_name from neighborhoods 
             INNER JOIN destinations ON destinations.id = neighborhoods.destinations_id 
-            WHERE neighborhoods.id = ${listingsResults[0].neighborhoods_id}`, (err, destinationResults, fields) => {
+            WHERE neighborhoods.id = ${listingsResults[0].neighborhoods_id}`, (err, results, fields) => {
             if (err) {
               callback(err, null);
             } else {
-              console.log(count);
-              callback(null, listingsResults);
+              destinationResults = results;
+              for (let k = 0; k < count; k += 1) {
+                nights.push({ date: availability.date[k], price: listingsResults[k].price });
+                prices.push(listingsResults[k].price);
+              }
+              recommendationsMessage = {
+                listingId: listingsResults[0].id,
+                userId: availability.user_id,
+                searchId: availability.search_id,
+                hostId: listingsResults[0].hosts_id,
+                market: destinationResults[0].destination_name,
+                neighbourhood: destinationResults[0].neighborhood_name,
+                roomType: listingsResults[0].room_type,
+                nightlyPrices: nights,
+                averageRating: listingsResults[0].rating,
+              };
+              searchUpdateMessage = {
+                updateType: 'REMOVE',
+                listingId: listingsResults[0].id,
+                date: availability.date,
+                price: prices,
+              };
+              callback(null, [recommendationsMessage, searchUpdateMessage]);
             }
           });
         }
