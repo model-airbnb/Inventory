@@ -17,12 +17,11 @@ const sqsParamsInventory = {
 
 sqs.sendMessage(sqsParamsInventory, (err, data) => {
   if (err) {
-    console.log('ERR', err);
+    console.log('Error', err);
   }
-  console.log(data);
 });
 
-//handles a user booking
+//listens for incoming user bookings to aws sqs
 const app = Consumer.create({
   queueUrl: process.env.INVENTORY_QUEUE_URL,
   handleMessage: (message, done) => {
@@ -32,31 +31,25 @@ const app = Consumer.create({
         console.log('Error', err);
         throw err;
       }
-
       const sqsParamsRecommendations = {
         MessageBody: JSON.stringify({ topic: 'Inventory', payload: data[0] }),
         QueueUrl: process.env.RECOMMENDATIONS_QUEUE_URL,
       };
-
       sqs.sendMessage(sqsParamsRecommendations, (err, data) => {
         if (err) {
-          console.log('ERR', err);
+          console.log('Error', err);
           throw err;
         }
-        console.log(data);
       });
-
       const sqsParamsSearch = {
         MessageBody: JSON.stringify({ topic: 'Availability', payload: data[1] }),
         QueueUrl: process.env.SEARCH_QUEUE_URL,
       };
-
       sqs.sendMessage(sqsParamsSearch, (err, data) => {
         if (err) {
-          console.log('ERR', err);
+          console.log('Error', err);
           throw err;
         }
-        console.log(data);
       });
     });
     done();
@@ -64,8 +57,9 @@ const app = Consumer.create({
   sqs: new AWS.SQS({ region: 'us-west-1' }),
 });
 
+
 app.on('error', (err) => {
-  console.log(err.message);
+  console.log('Error', err);
 });
 
 app.start();
