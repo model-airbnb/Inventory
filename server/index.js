@@ -9,7 +9,7 @@ const generate = () => {
   setInterval(() => {
     const listings = dataGenerator.listingsGeneratorImport();
     for (let i = 0; i < listings.length; i += 1) {
-      let content = listings[i];
+      const content = listings[i];
       fs.appendFile('./listings.csv', content + '\n', 'utf8', (err) => {
         if (err) {
           throw err;
