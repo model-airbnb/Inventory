@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'inventory_database',
+  host: 'localhost' || process.env.INVENTORY_HOST,
+  user: 'root' || process.env.INVENTORY_USER,
+  password: '' || process.env.INVENTORY_PASSWORD,
+  database: 'inventory_database' || process.env.INVENTORY_DATABASE,
 });
 
 const insertListings = (listings, callback) => {

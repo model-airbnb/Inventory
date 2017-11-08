@@ -22,7 +22,8 @@ const neighborhoods = [
 //available listings are added
 const listingsGenerator = () => {
   const listings = [];
-  for (let i = 0; i < 10000; i += 1) {
+  const amount = 10000;
+  for (let i = 0; i < amount; i += 1) {
     const hostName = hosts[Math.floor(Math.random() * hosts.length)];
     const destination = destinations[Math.floor(Math.random() * destinations.length)];
     const neighborhood = neighborhoods[Math.floor(Math.random() * neighborhoods.length)];
@@ -46,7 +47,8 @@ const listingsGenerator = () => {
 //available listings are written to a file to import
 const listingsGeneratorImport = () => {
   const listings = [];
-  for (let i = 0; i < 5000; i += 1) {
+  const amount = 5000;
+  for (let i = 0; i < amount; i += 1) {
     const neighborhood = neighborhoods[Math.floor(Math.random() * neighborhoods.length)];
     const roomType = roomTypes[Math.floor(Math.random() * roomTypes.length)];
     const listingName = `${listingInfo[Math.floor(Math.random() * listingInfo.length)]} ${roomType} in ${neighborhood}`;
@@ -57,18 +59,18 @@ const listingsGeneratorImport = () => {
     const neighborhoodsId = Math.ceil(Math.random() * 9);
 
     //uncomment below to write listings to a .json file
-    // listings[i] = {
-    //   listing_name: listingName,
-    //   rating: listingRating,
-    //   rating_count: numberOfRatings,
-    //   room_type: roomType,
-    //   hosts_id: Math.ceil(Math.random() * 4),
-    //   destinations_id: 1,
-    //   neighborhoods_id: Math.ceil(Math.random() * 9),
-    // };
+    listings[i] = {
+      listing_name: listingName,
+      rating: listingRating,
+      rating_count: numberOfRatings,
+      room_type: roomType,
+      hosts_id: Math.ceil(Math.random() * 4),
+      destinations_id: 1,
+      neighborhoods_id: Math.ceil(Math.random() * 9),
+    };
 
     //uncomment below ot write listings to a .csv file
-    listings[i] = `'${listingName}',${listingRating},${numberOfRatings},${roomType},${hostsId},${destinationsId},${neighborhoodsId}`;
+    // listings[i] = `'${listingName}',${listingRating},${numberOfRatings},${roomType},${hostsId},${destinationsId},${neighborhoodsId}`;
   }
   return listings;
 };
@@ -76,7 +78,8 @@ const listingsGeneratorImport = () => {
 //availble dates for existings listings are added
 const availabilityGenerator = () => {
   const availability = [];
-  for (let i = 0; i < 10000; i += 1) {
+  const amount = 10000;
+  for (let i = 0; i < amount; i += 1) {
     availability[i] = {
       listings_id: Math.floor(Math.random() * 10000000),
       date: [
@@ -99,7 +102,8 @@ const availabilityGenerator = () => {
 //listing with correct date must already be in the database to not throw an error
 const availabilityUpdateGenerator = () => {
   const availability = [];
-  for (let i = 0; i < 10000; i += 1) {
+  const amount = 10000;
+  for (let i = 0; i < amount; i += 1) {
     availability[i] = {
       listings_id: Math.floor(Math.random() * 10000000),
       user_id: Math.floor(Math.random() * 10000000),
