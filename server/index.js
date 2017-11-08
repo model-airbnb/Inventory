@@ -5,7 +5,7 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 
 const sqs = new AWS.SQS({ region: 'us-west-1' });
-const port = process.env.INVENTORY_PORT;
+const port = 8080 || process.env.INVENTORY_PORT;
 const app = express();
 
 
@@ -19,8 +19,8 @@ const writeListings = () => {
   setInterval(() => {
     const listings = dataGenerator.listingsGeneratorImport();
     for (let i = 0; i < listings.length; i += 1) {
-      const content = listings[i];
-      fs.appendFile('./listings.csv', content + '\n', 'utf8', (err) => {
+      const content = JSON.stringify(listings[i]);
+      fs.appendFile('./listings.json', content + '\n', 'utf8', (err) => {
         if (err) {
           console.log('Error', err);
           throw err;
@@ -31,7 +31,7 @@ const writeListings = () => {
 };
 
 //uncomment below to write listings to a file
-// writeListings();
+writeListings();
 
 app.post('/listings', (req, res) => {
   const listings = dataGenerator.listingsGenerator();
@@ -94,5 +94,5 @@ app.post('/update', (req, res) => {
 
 
 app.listen(port, () => {
-  console.log('Server is listening on port 8080!');
+  console.log(`Server is listening on port ${port}!`);
 });

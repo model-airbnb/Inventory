@@ -9,21 +9,11 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-//simulates a user booking
-const sqsParamsInventory = {
-  MessageBody: JSON.stringify({ topic: 'Inventory', payload: { listings_id: 10000005, date: ['2017-12-29', '2017-12-30', '2017-12-31'], is_available: 0 } }),
-  QueueUrl: process.env.INVENTORY_QUEUE_URL,
-};
-
-sqs.sendMessage(sqsParamsInventory, (err, data) => {
-  if (err) {
-    console.log('Error', err);
-  }
-});
-
 //listens for incoming user bookings to aws sqs
 const app = Consumer.create({
   queueUrl: process.env.INVENTORY_QUEUE_URL,
+  batchSize: 10,
+  attributeNames: ['All'],
   handleMessage: (message, done) => {
     message = JSON.parse(message.Body);
     db.updateAvailability(message.payload, (err, data) => {
