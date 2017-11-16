@@ -33,13 +33,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 - [System Design]
 
 - Integrated Data Flow Diagram
-<img src="./docs/Integrated Data Flow Diagram.png">
+![picture](docs/Integrated Data Flow Diagram.png)
 
 - Integrated Sequence Diagram
-<img src="./docs/Integrated Sequence Diagram.png">
+![picture](docs/Integrated Sequence Diagram.png)
 
 - [Inventory Service Architecture]
-
-<img src="./docs/Inventory Service Architecture.png">
+![picture](docs/Inventory Service Architecture.png)
 
 
